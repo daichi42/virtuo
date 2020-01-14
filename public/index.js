@@ -58,11 +58,11 @@ const rentals = [{
   'options': {
     'deductibleReduction': true
   },
-  'price': 217,
+  'price': 237,
   'commission': {
     'insurance': 32.55,
     'treasury': 5,
-    'virtuo': 27.55
+    'virtuo': 47.55
   }
 }, {
   'id': '8c1789c0-8e6a-48e3-8ee5-a6d4da682f2a',
@@ -76,11 +76,11 @@ const rentals = [{
   'options': {
     'deductibleReduction': true
   },
-  'price': 390,
+  'price': 450,
   'commission': {
     'insurance': 58.5,
     'treasury': 15,
-    'virtuo': 43.5
+    'virtuo': 103.5
   }
 }];
 
@@ -214,19 +214,44 @@ function rental_price_deductible(rental)
 	if (distance == null)
 		{ distance = 0;}
 	var car = fetchcar(rental.carId);
-	var timeprice;
-	if(rental.options.deductibleReduction == true)
-		{timeprice = time * (car.pricePerDay+4); }
-	else 
-		{ timeprice = time * car.pricePerDay;}
+	var timeprice = time * car.pricePerDay;
 	distance = distance * car.pricePerKm;
+	var price;
 	if (time>10)
-	{ return (timeprice+distance)*0.5;}
-	if (time>4)
-	{ return (timeprice+distance)*0.7;}
-	if (time >1)
-	{ return (timeprice+distance)*0.9;}
-	return timeprice+distance
-	
-	
+	{ price =  (timeprice+distance)*0.5;}
+	if (time>4 && time<10)
+	{ price = (timeprice+distance)*0.7;}
+	if (time >1 && time<4)
+	{ price =  (timeprice+distance)*0.9;}
+	if (time <=1)
+	{ price = timeprice + distance;}
+	if(rental.options.deductibleReduction == true)
+	{
+		price = price + 4*time;
+	}
+	return price;	
+}
+function commission_deductible(rental)
+{
+	if(rental.options.deductibleReduction == true)
+	{
+		var date1 = new Date (rental.pickupDate);
+		var date2= new Date (rental.returnDate);
+		var price = (rental.price - ((date2.getTime()-date1.getTime())/(1000 * 3600 * 24)+1)*4)*0.3;
+		var insurance = price/2;
+		var treasury = (date2.getTime()-date1.getTime())/(1000 * 3600 * 24)+1;
+		var virtuo = price - insurance - treasury+ ((date2.getTime()-date1.getTime())/(1000 * 3600 * 24)+1)*4;
+		return [insurance,treasury,virtuo];
+
+	}
+	else 
+	{
+		var price = rental.price*0.3;
+		var insurance = price/2;
+		var date1 = new Date (rental.pickupDate);
+		var date2= new Date (rental.returnDate);
+		var treasury = (date2.getTime()-date1.getTime())/(1000 * 3600 * 24)+1;
+		var virtuo = price - insurance - treasury;
+		return [insurance,treasury,virtuo];
+	}
 }
