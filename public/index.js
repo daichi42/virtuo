@@ -91,69 +91,69 @@ const actors = [{
   'payment': [{
     'who': 'driver',
     'type': 'debit',
-    'amount': 0
+    'amount': 46
   }, {
     'who': 'partner',
     'type': 'credit',
-    'amount': 0
+    'amount': 32.2
   }, {
     'who': 'insurance',
     'type': 'credit',
-    'amount': 0
+    'amount': 6.9
   }, {
     'who': 'treasury',
     'type': 'credit',
-    'amount': 0
+    'amount': 1
   }, {
     'who': 'virtuo',
     'type': 'credit',
-    'amount': 0
+    'amount': 5.9
   }]
 }, {
   'rentalId': 'bc16add4-9b1d-416c-b6e8-2d5103cade80',
   'payment': [{
     'who': 'driver',
     'type': 'debit',
-    'amount': 0
+    'amount': 237
   }, {
     'who': 'partner',
     'type': 'credit',
-    'amount': 0
+    'amount': 151.9
   }, {
     'who': 'insurance',
     'type': 'credit',
-    'amount': 0
+    'amount': 32.55
   }, {
     'who': 'treasury',
     'type': 'credit',
-    'amount': 0
+    'amount': 5
   }, {
     'who': 'virtuo',
     'type': 'credit',
-    'amount': 0
+    'amount': 47.55
   }]
 }, {
   'rentalId': '8c1789c0-8e6a-48e3-8ee5-a6d4da682f2a',
   'payment': [{
     'who': 'driver',
     'type': 'debit',
-    'amount': 0
+    'amount': 450
   }, {
     'who': 'partner',
     'type': 'credit',
-    'amount': 0
+    'amount': 273
   }, {
     'who': 'insurance',
     'type': 'credit',
-    'amount': 0
+    'amount': 58.5
   }, {
     'who': 'treasury',
     'type': 'credit',
-    'amount': 0
+    'amount': 15
   }, {
     'who': 'virtuo',
     'type': 'credit',
-    'amount': 0
+    'amount': 103.5
   }]
 }];
 
@@ -254,4 +254,13 @@ function commission_deductible(rental)
 		var virtuo = price - insurance - treasury;
 		return [insurance,treasury,virtuo];
 	}
+}
+function debit_credit(rental)
+{
+	var driver = rental.price;
+	var virtuo = rental.commission.virtuo;
+	var insurance =rental.commission.insurance;
+	var treasury = rental.commission.treasury;
+	var partner = driver - virtuo - insurance - treasury;
+	return [driver,partner,insurance,treasury,virtuo]
 }
