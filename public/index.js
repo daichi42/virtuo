@@ -39,7 +39,7 @@ const rentals = [{
   'options': {
     'deductibleReduction': false
   },
-  'price': 0,
+  'price': 46,
   'commission': {
     'insurance': 0,
     'treasury': 0,
@@ -58,7 +58,7 @@ const rentals = [{
   'options': {
     'deductibleReduction': true
   },
-  'price': 0,
+  'price': 217,
   'commission': {
     'insurance': 0,
     'treasury': 0,
@@ -76,7 +76,7 @@ const rentals = [{
   'options': {
     'deductibleReduction': true
   },
-  'price': 0,
+  'price': 390,
   'commission': {
     'insurance': 0,
     'treasury': 0,
@@ -193,4 +193,14 @@ function fetchcar(ID)
 		}
 	}
 	return 1;
+}
+function commission(rental)
+{
+	var price = rental.price;
+	var insurance = price/2;
+	var date1 = new Date (rental.pickupDate);
+	var date2= new Date (rental.returnDate);
+	var treasury = (date2.getTime()-date1.getTime())/(1000 * 3600 * 24)+1;
+	var virtuo = price - insurance - treasury;
+	return [insurance,treasury,virtuo];
 }
