@@ -41,9 +41,9 @@ const rentals = [{
   },
   'price': 46,
   'commission': {
-    'insurance': 23,
+    'insurance': 6.9,
     'treasury': 1,
-    'virtuo': 22
+    'virtuo': 5.9
   }
 }, {
   'id': 'bc16add4-9b1d-416c-b6e8-2d5103cade80',
@@ -60,9 +60,9 @@ const rentals = [{
   },
   'price': 217,
   'commission': {
-    'insurance': 108.5,
+    'insurance': 32.55,
     'treasury': 5,
-    'virtuo': 103.5
+    'virtuo': 27.55
   }
 }, {
   'id': '8c1789c0-8e6a-48e3-8ee5-a6d4da682f2a',
@@ -78,9 +78,9 @@ const rentals = [{
   },
   'price': 390,
   'commission': {
-    'insurance': 195,
+    'insurance': 58.5,
     'treasury': 15,
-    'virtuo': 180
+    'virtuo': 43.5
   }
 }];
 
