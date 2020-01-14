@@ -171,9 +171,15 @@ function rental_price(rental)
 	if (distance == null)
 		{ distance = 0;}
 	var car = fetchcar(rental.carId);
-	time = time * car.pricePerDay;
-	distance = distance * car.pricePerKm
-	return time+distance
+	var timeprice = time * car.pricePerDay;
+	distance = distance * car.pricePerKm;
+	if (time>10)
+	{ return (timeprice+distance)*0.5;}
+	if (time>4)
+	{ return (timeprice+distance)*0.7;}
+	if (time >1)
+	{ return (timeprice+distance)*0.9;}
+	return timeprice+distance
 	
 	
 }
