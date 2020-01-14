@@ -41,9 +41,9 @@ const rentals = [{
   },
   'price': 46,
   'commission': {
-    'insurance': 0,
-    'treasury': 0,
-    'virtuo': 0
+    'insurance': 23,
+    'treasury': 1,
+    'virtuo': 22
   }
 }, {
   'id': 'bc16add4-9b1d-416c-b6e8-2d5103cade80',
@@ -60,9 +60,9 @@ const rentals = [{
   },
   'price': 217,
   'commission': {
-    'insurance': 0,
-    'treasury': 0,
-    'virtuo': 0
+    'insurance': 108.5,
+    'treasury': 5,
+    'virtuo': 103.5
   }
 }, {
   'id': '8c1789c0-8e6a-48e3-8ee5-a6d4da682f2a',
@@ -78,9 +78,9 @@ const rentals = [{
   },
   'price': 390,
   'commission': {
-    'insurance': 0,
-    'treasury': 0,
-    'virtuo': 0
+    'insurance': 195,
+    'treasury': 15,
+    'virtuo': 180
   }
 }];
 
@@ -196,11 +196,37 @@ function fetchcar(ID)
 }
 function commission(rental)
 {
-	var price = rental.price;
+	var price = rental.price*0.3;
 	var insurance = price/2;
 	var date1 = new Date (rental.pickupDate);
 	var date2= new Date (rental.returnDate);
 	var treasury = (date2.getTime()-date1.getTime())/(1000 * 3600 * 24)+1;
 	var virtuo = price - insurance - treasury;
 	return [insurance,treasury,virtuo];
+}
+function rental_price_deductible(rental)
+{
+	var date1 = new Date (rental.pickupDate);
+	var date2= new Date (rental.returnDate);
+	var days = (date2.getTime()-date1.getTime())/(1000 * 3600 * 24);
+	var time = days+1;
+	var distance = rental.distance;
+	if (distance == null)
+		{ distance = 0;}
+	var car = fetchcar(rental.carId);
+	var timeprice;
+	if(rental.options.deductibleReduction == true)
+		{timeprice = time * (car.pricePerDay+4); }
+	else 
+		{ timeprice = time * car.pricePerDay;}
+	distance = distance * car.pricePerKm;
+	if (time>10)
+	{ return (timeprice+distance)*0.5;}
+	if (time>4)
+	{ return (timeprice+distance)*0.7;}
+	if (time >1)
+	{ return (timeprice+distance)*0.9;}
+	return timeprice+distance
+	
+	
 }
